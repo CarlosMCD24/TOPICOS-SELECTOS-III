@@ -1,0 +1,14 @@
+**/.DS_Store
+/Boto3/*.zip
+/WiDS2025/data/Data\ Dictionary.xlsx
+/WiDS2025/data/SAMPLE_SUBMISSION.xlsx
+/WiDS2025/data/widsdatathon2025.zip
+/WiDS2025/data/TEST
+/WiDS2025/data/TRAIN
+/WiDS2025/data/TRAIN_NEW
+/WiDS2025/data/TRAIN_OLD
+**/__pycache__
+/WiDS2025/mlruns/203651764970985176/
+/WiDS2025/mlruns/models/
+/WiDS2025/mlruns/557495972463532595/
+/WiDS2025/mlruns/models/
