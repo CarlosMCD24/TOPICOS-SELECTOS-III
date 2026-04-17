@@ -1,0 +1,18 @@
+Objetivo
+Procesar el stream de eventos en tiempo real con AWS Lambda y llevarlos a una tabla de DynamoDBN con el objetivo de poder ser potencialmente consultadas por un cliente.
+
+Arquitectura (se anexa imagen)
+EC2 (LogGenerator) -> Kinesis Stream (Clientorders) -> Lambda (KinesisToClientOrders) -> DynamoDB (ClientOrders)
+
+Scripts a ejecutar (requiere actividad anterior completada)
+create_kinesis_stream.py Crea el stream de kinesis Clientorders (OJO: Monitorear este stream, cuesta aunque no se encuentre siendo utilizado)
+create_dynamodb.py Crea la tabla ClientOrders de DynamoDB (PK: CustomerID, SK:OrderID)
+create_lambda.py Despliega una funcion lambda (KinesisToClientOrders) y crea el trigger desde el stream de kinesis para ser ejecutada. OJO! A veces hay problemas en la creación del trigger, y es posible que ustedes tengan que poner el trigger manualmente.
+Tarea
+Ejectutar LogGenerator.py en la instancia de EC2 y generar datos ficticios
+Consultar la tabla de DynamoDB y verificar que se estén insertando ítems correctamente
+Revisar los logs de lambda en CloudWatch para ver los mensajes en consola "Wrote item into batch"
+Hacer una consulta por CustomerID en la consola de DynamoDB y describir la información de compra que se puede recuperar
+Hacer un reporte (formato libre) que describa el flujo de la información y los servicios de AWS utilizados.
+Limpieza (obligatoria al terminar)                                  
+Ejecuta el script cleanup.py para eliminar rápidamente los recursos en el orden correcto para evitar cargos en la cuenta

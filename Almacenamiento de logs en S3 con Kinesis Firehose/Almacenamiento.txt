@@ -1,0 +1,23 @@
+IntroducciónUn generador de datos (LogGenerator.py) simula transacciones de e-commerce en una instancia EC2 y escribe archivos .log en un una carpeta dentro de la instancia (/var/log/cadabra). Un software (Kinesis Agent) recoge estos logs y los envía a dos destinos en paralelo: un stream de Kinesis (Clientorders) y un servicio de Firehose (Purchaselogs). Cada una de las siguientes actividades explora uno de los tres flujos que llevan estos datos.
+
+Actividad
+
+Objetivo
+Configurar un pipeline de ingesta que almacene los datos crudos de transacciones en S3 para un análisis posterior.
+
+Arquitectura (se anexa una imagen)
+EC2 (LogGenerator) -> Firehose (Purchaselogs) -S3
+
+Scripts a ejecutar (en orden):
+create_key.py. Crea una llave de acceso a la instancia que se va a crear posteriormente. Opcionalmente pueden conectarse a la instancia mediante la consola en AWS.
+create_bucket.py. Crea el bucket en S3 donde van a ser depositados los datos
+create_firehose.py. Crea el rol IAM y el delivery stream
+create_ec2_role.py Crea un rol en IAM para darle permisos de la instancia EC2 de mandar datos a otros servicios
+create_instance.py El archivo user_data.sh configuration el Kinesis Agent automaticamente, además de las descartas y directorios relevantes dentro de la instancia, para su creación.
+Tareas
+Ejecturar los scripts en orden y verificar que los recursos se crearon en la consola de AWS.
+Conectarse a la instancia por SSH y ejecutar LogGenerator.py para generar datos ficticios
+Esperar unos minutos y verificar que aparezcan los archivos en el Bucket de S3 creado
+Crear un reporte (formato libre) que describa los servicios utilizados y el objetivo y contexto de este pipeline.
+Limpieza (obligatoria al terminar)                                  
+Ejecuta el script cleanup.py para eliminar rápidamente los recursos en el orden correcto para evitar cargos en la cuenta.

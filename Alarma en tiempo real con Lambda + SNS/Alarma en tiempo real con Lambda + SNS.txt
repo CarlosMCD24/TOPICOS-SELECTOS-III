@@ -1,0 +1,16 @@
+Objetivo
+Detectar condiciones anómalas en el stream (e.g. volúmenes altos de órdenes) y disparar una notificación automática vía SNS.
+
+Arquitectura
+Kinesis Stream (Clientorders) -> Lambda (KinesisOrderAlarm) -> SNS
+
+Scripts a ejecutar (requiere el stream "Clientorders" activo, de la actividad anterior)
+create_lambda_alarm.py crea el rol IAM, despliega la función lambda y configura el trigger con una ventana temporal de 10 segundos.
+Tareas
+Crear manualmente un SNS Topic en la consola de AWS y suscribir su número telefónico para que les llegue el mensaje
+Copiar el ARN del topic y configurarlo dentro de la función lambda antes de desplegar el código
+Ejecutar LogGenerator.py (más de 10 registros) y esperar la notificación por sns.
+Modificar el umbral de la alarma (por ejemplo, cambiar el número de órdenes que la dispara) y observar el ejecto
+Crear un reporte (formato libre) que describa el flujo de trabajo y los servicios utilizados de AWS.
+Limpieza (obligatoria al terminar)                                  
+Ejecuta el script cleanup.py para eliminar rápidamente los recursos en el orden correcto para evitar cargos en la cuenta
