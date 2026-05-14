@@ -1,7 +1,11 @@
+import os
+import tempfile
+
 import boto3
 import json
 import zipfile
 import time
+
 
 REGION = 'us-east-2'
 FUNCTION_NAME = 'KinesisOrderAlarm'
@@ -65,9 +69,15 @@ def create_role():
 def create_function(role_arn):
     lambda_client = boto3.client('lambda', region_name=REGION)
 
-    zip_path = '/tmp/lambda_alarm.zip'
+    import os
+    import tempfile
+
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    source_file = os.path.join(script_dir, 'lambda_alarm.py')
+    zip_path = os.path.join(tempfile.gettempdir(), 'lambda_alarm.zip')
+
     with zipfile.ZipFile(zip_path, 'w') as zf:
-        zf.write('lambda_alarm.py', 'lambda_alarm.py')
+        zf.write(source_file, 'lambda_alarm.py')
 
     with open(zip_path, 'rb') as f:
         zip_content = f.read()

@@ -3,6 +3,7 @@ import json
 import zipfile
 import os
 import time
+import tempfile
 
 # Configuration
 REGION = 'us-east-2'
@@ -87,12 +88,16 @@ def create_lambda_function(role_arn):
     lambda_client = boto3.client('lambda', region_name=REGION)
     
     # Create deployment package
-    zip_file = '/tmp/lambda_function.zip'
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    lambda_source = os.path.join(script_dir, 'lambda_function.py')
+    zip_file = os.path.join(tempfile.gettempdir(), 'lambda_function.zip')
+
     with zipfile.ZipFile(zip_file, 'w') as zf:
-        zf.write('lambda_function.py', 'lambda_function.py')
+        zf.write(lambda_source, arcname='lambda_function.py')
     
     with open(zip_file, 'rb') as f:
-        zip_content = f.read()
+      zip_content = f.read()
+
     
     try:
         response = lambda_client.create_function(
